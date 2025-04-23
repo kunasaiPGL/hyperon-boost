@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hyperon Boost - Магазин</title>
+  <div id="particles-js"></div>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); }
+      50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.4); }
+      100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    body {
+      font-family: 'Expressway', 'Segoe UI', sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('attached_assets/Снимок экрана (45).png') no-repeat center center fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      width: 70%;
+      max-width: 700px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 60%);
+      opacity: 0.5;
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      letter-spacing: 3px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .service {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 15px;
+      min-height: 70px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .service h2 {
+      color: white;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .details li {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+
+    .service::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, #00ffff, #0088ff);
+    }
+
+    .service:hover {
+      transform: translateY(-3px);
+      background-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.15);
+    }
+
+    .service h2 {
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 10px;
+    }
+    
+    .service h2 i {
+      margin-right: 10px;
+      font-size: 24px;
+      color: #ffffff;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    }
+
+    .details {
+      text-align: left;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .details ul {
+      list-style: none;
+    }
+
+    .details li::before {
+      content: "🔹";
+      margin-right: 6px;
+    }
+
+    .manager-button {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .manager-button:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.25);
+    }
+  .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 30px 0;
+      padding: 20px;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-item span {
+      font-size: 40px;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .stat-item p {
+      font-size: 15px;
+      margin: 8px 0;
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+
+    @keyframes shine {
+      0% { background-position: -100% }
+      100% { background-position: 200% }
+    }
+
+    .manager-button {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .manager-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Expressway&display=swap');
+    
+    .author-credit {
+      margin-top: 30px;
+      color: white;
+      letter-spacing: 1.5px;
+      font-size: 14px;
+    }
+
+    .author-name {
+      font-family: 'Expressway', sans-serif;
+      color: white;
+      font-weight: 500;
+      letter-spacing: 2px;
+    }
+
+    #particles-js {
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .container {
+      transition: all 0.3s ease;
+      transform: translateZ(0);
+    }
+
+    .container:hover {
+      transform: translateZ(20px);
+    }
+
+    .stat-item span {
+      font-size: 48px;
+      display: inline-block;
+      filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+    }
+    
+    .stat-item i {
+      font-size: 36px;
+      color: #ffffff;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+      -webkit-font-smoothing: antialiased;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('attached_assets/Без названия (1) (2).jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+  </style>
+  <script>
+    // Particle.js configuration
+    document.addEventListener('DOMContentLoaded', function() {
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 30 },
+          color: { value: '#ffffff' },
+          shape: { type: 'circle' },
+          opacity: { value: 0.7 },
+          size: { value: 3 },
+          line_linked: {
+            enable: false
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            direction: "bottom",
+            random: true,
+            straight: false,
+            out_mode: "out",
+            bounce: false
+          }
+        }
+      });
+
+      // Counter animation
+      const counters = document.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const increment = target / 100;
+
+        const updateCounter = () => {
+          const count = +counter.innerText;
+          if (count < target) {
+            counter.innerText = Math.ceil(count + increment);
+            setTimeout(updateCounter, 10);
+          }
+        };
+
+        updateCounter();
+      });
+    });
+    function toggleDetails(element) {
+      const details = element.querySelector('.details');
+      if (details.style.display === 'block') {
+        details.style.display = 'none';
+      } else {
+        details.style.display = 'block';
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Hyperon Boost</h1>
+    <div class="stats">
+      <div class="stat-item">
+        <span><i class="fas fa-shield-alt"></i></span>
+        <p>100% Безопасно</p>
+      </div>
+      <div class="stat-item">
+        <span><i class="fas fa-bolt"></i></span>
+        <p>Мгновенный результат</p>
+      </div>
+    </div>
+    <p>Выберите услугу для улучшения вашего ПК или игры:</p>
+
+    <div class="service" onclick="toggleDetails(this)">
+      <h2><i class="fas fa-desktop"></i> Windows Boost</h2>
+      <div class="details">
+        <ul>
+          <li>Отключение мусора и ненужных служб</li>
+          <li>Улучшение отклика системы</li>
+          <li>Настройка производительности для игр</li>
+          <li>Снижение использования памяти и ЦП</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="service" onclick="toggleDetails(this)">
+      <h2><i class="fas fa-gamepad"></i> CS2 FPS Boost</h2>
+      <div class="details">
+        <ul>
+          <li>Максимальный FPS на любом железе</li>
+          <li>Минимизация input lag'а</li>
+          <li>Оптимизация под FACEIT (100% безопасно)</li>
+          <li>Конфиг Hyperon Custom FPS Pack</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>Для покупки, свяжитесь с нашим менеджером:</p>
+    <button class="manager-button" onclick="window.location.href='tg://resolve?domain=shv3ddd'">
+      Связаться с менеджером
+    </button>
+    <div class="author-credit">
+      Created by <span class="author-name">kunasai</span><br>
+      Co-authored by <span class="author-name">shv3d</span>
+    </div>
+  </div>
+</body>
+</html>
