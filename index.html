@@ -2,21 +2,14 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hyperon Boost - Магазин</title>
+  <title>Hyperon Boost - Премиум Сервис</title>
   <div id="particles-js"></div>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <style>
-    #particles-js {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
     * {
       margin: 0;
@@ -24,21 +17,94 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --neon-white: #ffffff;
+      --deep-black: #000000;
+      --accent-gray: #333333;
+    }
+
+    @keyframes neonFlicker {
+      0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+        opacity: 0.99;
+        text-shadow: -1px -1px 0 var(--neon-blue), 1px -1px 0 var(--neon-blue), -1px 1px 0 var(--neon-blue), 1px 1px 0 var(--neon-blue);
+      }
+      20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+        opacity: 0.4;
+        text-shadow: none;
+      }
+    }
+
+    @keyframes scanline {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(100%);
+      }
+    }
+
+    @keyframes glitchText {
+      0% {
+        clip-path: inset(40% 0 61% 0);
+      }
+      20% {
+        clip-path: inset(92% 0 1% 0);
+      }
+      40% {
+        clip-path: inset(43% 0 1% 0);
+      }
+      60% {
+        clip-path: inset(25% 0 58% 0);
+      }
+      80% {
+        clip-path: inset(54% 0 7% 0);
+      }
+      100% {
+        clip-path: inset(58% 0 43% 0);
+      }
+    }
+
     @keyframes glowPulse {
-      0% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); }
-      50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.4); }
-      100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); }
+      0% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.2); }
+      50% { box-shadow: 0 0 40px rgba(0, 247, 255, 0.4); }
+      100% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.2); }
     }
 
     @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+
+    @keyframes backgroundPulse {
+      0% { background-color: rgba(0, 0, 0, 0.8); }
+      50% { background-color: rgba(0, 31, 63, 0.8); }
+      100% { background-color: rgba(0, 0, 0, 0.8); }
+    }
+
+    @keyframes neonFlicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 
+          0 0 5px #fff,
+          0 0 10px #fff,
+          0 0 20px #00ff00,
+          0 0 40px #00ff00,
+          0 0 80px #00ff00;
+      }
+      20%, 22%, 24%, 55% {
+        text-shadow: none;
+      }
     }
 
     body {
-      font-family: 'Expressway', 'Segoe UI', sans-serif;
-      background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('attached_assets/Снимок экрана (45).png') no-repeat center center fixed;
+      font-family: 'Michroma', sans-serif;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('attached_assets/Без названия (1) (2).jpg') no-repeat center center fixed;
+      background-color: var(--deep-black);
+      animation: backgroundPulse 10s infinite;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -46,385 +112,902 @@
       background-size: cover;
       color: #fff;
       padding: 20px;
-      text-align: center;
+      perspective: 1000px;
     }
 
     .container {
       width: 90%;
-      max-width: 700px;
+      max-width: 800px;
       margin: auto;
-      background: rgba(0, 0, 0, 0.45);
-      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.95);
+      border-radius: 0;
       padding: 40px;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 2px solid var(--neon-white);
       position: relative;
-      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
     }
 
-    .container::before {
-      content: '';
+    .container:hover {
+      transform: translateZ(30px) rotateX(2deg) rotateY(2deg);
+    }
+
+    .cyber-line {
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 60%);
-      opacity: 0.5;
-      animation: rotate 20s linear infinite;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+      width: 100%;
+      left: 0;
+      animation: scan 3s linear infinite;
     }
 
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes scan {
+      0% { top: 0; opacity: 0; }
+      5% { opacity: 0.8; }
+      95% { opacity: 0.8; }
+      100% { top: 100%; opacity: 0; }
     }
 
     h1 {
+      font-family: 'Orbitron', sans-serif;
       font-size: 48px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: #ffffff;
-      letter-spacing: 3px;
-      font-weight: 700;
+      text-shadow: 0 0 10px var(--neon-blue);
+      letter-spacing: 4px;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 40px 0;
+      padding: 30px;
+      border-radius: 15px;
+      background: rgba(0, 31, 63, 0.5);
+      position: relative;
+      overflow: visible;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-details {
+      position: absolute;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      width: 300px;
+      background: rgba(0, 0, 0, 0.95);
+      border: 2px solid rgba(0, 247, 255, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+    }
+
+    .stat-details.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .stat-details h3 {
+      color: rgba(0, 247, 255, 0.9);
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      text-align: center;
+      text-transform: uppercase;
       letter-spacing: 2px;
     }
 
-    p {
-      font-size: 16px;
-      margin-bottom: 20px;
-      color: #ffffff;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    .stat-details ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .stat-details li {
+      color: #fff;
+      margin: 10px 0;
+      font-size: 0.9em;
+      padding: 8px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .stat-details li:hover {
+      background: rgba(0, 247, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    @keyframes floatStats {
+      0% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(2deg); }
+      75% { transform: translateY(10px) rotate(-2deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    .stat-item {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: floatStats 6s ease-in-out infinite;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid rgba(0, 247, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+    }
+
+    .stat-item:nth-child(2) {
+      animation-delay: -2s;
+    }
+
+    .stat-item:nth-child(3) {
+      animation-delay: -4s;
+    }
+
+    .stat-item span {
+      font-size: 48px;
+      color: var(--neon-blue);
+      display: block;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    .stat-item p {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     .service {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(51, 51, 51, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 25px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 0 30px rgba(0, 247, 255, 0.2),
+        inset 0 0 20px rgba(0, 247, 255, 0.1);
+      padding: 30px;
       margin-bottom: 25px;
       border-radius: 15px;
-      min-height: 70px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(5px);
-    }
-
-    .service h2 {
-      color: white;
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
-
-    .details li {
-      margin: 10px 0;
-      font-size: 16px;
-      color: #fff;
-      text-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
     }
 
     .service::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(to bottom, #00ffff, #0088ff);
+      top: -2px;
+      left: -2px;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      background: linear-gradient(45deg, var(--neon-blue), var(--cyber-purple));
+      z-index: -1;
+      border-radius: 15px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .service:hover::before {
+      opacity: 1;
     }
 
     .service:hover {
-      transform: translateY(-3px);
-      background-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.15);
+      transform: translateY(-8px) scale(1.03);
+      background: rgba(0, 31, 63, 0.6);
+      box-shadow: 0 15px 30px rgba(0, 247, 255, 0.15);
     }
 
-    .service h2 {
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 10px;
-    }
-    
-    .service h2 i {
-      margin-right: 10px;
-      font-size: 24px;
-      color: #ffffff;
-      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-    }
-
-    .details {
-      text-align: left;
-      margin-top: 10px;
-      display: none;
-    }
-
-    .details ul {
-      list-style: none;
-    }
-
-    .details li::before {
-      content: "🔹";
-      margin-right: 6px;
-    }
-
-    .manager-button {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(5px);
-      color: white;
-      padding: 15px 30px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .manager-button:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.25);
-    }
-  .stats {
-      display: flex;
-      justify-content: space-around;
-      margin: 30px 0;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-item span {
-      font-size: 40px;
-      font-weight: bold;
-      color: #00ffff;
-      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    }
-
-    .stat-item p {
-      font-size: 15px;
-      margin: 8px 0;
-      color: #fff;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-    }
-
-    @keyframes shine {
-      0% { background-position: -100% }
-      100% { background-position: 200% }
-    }
-
-    .manager-button {
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      transition: all 0.3s ease;
-    }
-    
-    .manager-button:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    @import url('https://fonts.googleapis.com/css2?family=Expressway&display=swap');
-    
-    .author-credit {
-      margin-top: 30px;
-      color: white;
-      letter-spacing: 1.5px;
-      font-size: 14px;
-    }
-
-    .author-name {
-      font-family: 'Expressway', sans-serif;
-      color: white;
-      font-weight: 500;
-      letter-spacing: 2px;
-    }
-
-    #particles-js {
-      animation: float 15s infinite ease-in-out;
-    }
-
-    .container {
-      transition: all 0.3s ease;
-      transform: translateZ(0);
-    }
-
-    .container:hover {
-      transform: translateZ(20px);
-    }
-
-    .stat-item span {
-      font-size: 48px;
-      display: inline-block;
-      filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
-    }
-    
-    .stat-item i {
-      font-size: 36px;
-      color: #ffffff;
-      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-      -webkit-font-smoothing: antialiased;
-      image-rendering: -webkit-optimize-contrast;
-    }
-
-    body {
-      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('attached_assets/Без названия (1) (2).jpg') no-repeat center center fixed;
-      background-size: cover;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-  /* Медиа-запросы для мобильных устройств */
-  @media screen and (max-width: 768px) {
-    .container {
-      width: 95%;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 32px;
-    }
-
-    .stats {
-      flex-direction: column;
-      gap: 20px;
+    @keyframes serviceGlow {
+      0% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.2); }
+      50% { box-shadow: 0 0 40px rgba(0, 247, 255, 0.4); }
+      100% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.2); }
     }
 
     .service {
-      padding: 15px;
+      animation: serviceGlow 3s infinite;
     }
 
     .service h2 {
-      font-size: 20px;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .service h2 i {
+      font-size: 24px;
+      color: var(--neon-blue);
+    }
+
+    .details {
+      max-height: 0;
+      overflow: hidden;
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 1px solid rgba(0, 247, 255, 0.2);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+    }
+
+    .details.active {
+      max-height: 500px;
+      margin-top: 20px;
+      padding-top: 20px;
+      opacity: 1;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px 0;
+    }
+
+    .details li {
+      margin: 0;
+      padding: 20px;
+      font-size: 16px;
+      color: #fff;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      position: relative;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      letter-spacing: 0.02em;
+      font-weight: 500;
+    }
+
+    .details li:hover {
+      transform: translateY(-5px) scale(1.02);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .details li::before {
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      font-size: 24px;
+      color: var(--neon-blue);
+      text-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    .details.active li {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .details li::before {
+      content: var(--icon);
+      color: var(--neon-blue);
+      font-size: 24px;
+      text-shadow: 0 0 15px var(--neon-blue);
+      animation: iconPulse 2s infinite;
+    }
+
+    @keyframes iconPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .details li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        rgba(0, 247, 255, 0.1) 0%,
+        transparent 100%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .details li:hover::after {
+      opacity: 1;
+    }
+
+    .feature-main {
+      position: relative;
+      cursor: pointer;
+      padding: 20px !important;
+    }
+
+    .subfeatures {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 14px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .feature-main:hover .subfeatures {
+      opacity: 1;
+      max-height: 200px;
+    }
+
+    .subfeatures p {
+      margin: 8px 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-main:hover {
+      background: rgba(0, 247, 255, 0.1);
+    }
+
+    .feature-tooltip {
+      position: fixed;
+      max-width: 300px;
+      background: rgba(0, 0, 0, 0.95);
+      border: 1px solid rgba(0, 247, 255, 0.3);
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #fff;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
+      backdrop-filter: blur(5px);
+    }
+
+    .feature-main:hover .feature-tooltip {
+      opacity: 1;
+    }
+
+    .tooltip-title {
+      color: rgba(0, 247, 255, 0.8);
+      font-size: 16px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .tooltip-text {
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    @keyframes buttonPulse {
+      0% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(0, 247, 255, 0.8); }
+      100% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.4); }
     }
 
     .manager-button {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid rgba(0, 247, 255, 0.8);
+      animation: buttonPulse 2s infinite;
+      color: var(--neon-white);
+      padding: 15px 40px;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .manager-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+    }
+
+    .manager-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
       width: 100%;
-      padding: 12px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .manager-button:hover::before {
+      left: 100%;
+    }
+
+    .scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(0, 247, 255, 0.1);
+      animation: scanline 2s linear infinite;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .glitch-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .service::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        rgba(0, 247, 255, 0.1) 0%,
+        transparent 100%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .service:hover::after {
+      opacity: 1;
+    }
+
+    .author-credit {
+      margin-top: 40px;
+      color: white;
+      text-align: center;
       font-size: 14px;
+      letter-spacing: 2px;
+      opacity: 0.8;
     }
 
-    .stat-item span {
-      font-size: 32px;
+    .author-name {
+      color: var(--neon-blue);
+      font-weight: 600;
     }
 
-    .stat-item p {
-      font-size: 13px;
+    @media screen and (max-width: 768px) {
+      .container {
+        width: 95%;
+        padding: 20px;
+        margin: 10px;
+        backdrop-filter: blur(15px);
+      }
+
+      .details li {
+        font-size: 14px !important;
+        padding: 15px !important;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .subfeatures p {
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        color: rgba(255, 255, 255, 0.95) !important;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3) !important;
+        margin: 10px 0 !important;
+      }
+
+      .stat-details li {
+        font-size: 13px !important;
+        padding: 12px !important;
+        margin: 8px 0 !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+      }
+
+      .service {
+        margin: 15px 0;
+        padding: 15px;
+      }
+
+      .details ul {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-main {
+        font-size: 14px;
+      }
+
+      .stats {
+        padding: 15px;
+      }
+
+      .stat-item span {
+        font-size: 36px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .stats {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .service {
+        padding: 20px;
+      }
+
+      .service h2 {
+        font-size: 20px;
+      }
+
+      .manager-button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+      }
     }
-  }
+
+    .performance-mode .service,
+    .performance-mode .stat-item {
+      backdrop-filter: blur(5px);
+      animation: none;
+    }
+
+    .performance-mode .details li {
+      backdrop-filter: none;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .performance-mode .cyber-line,
+    .performance-mode .glitch-overlay {
+      display: none;
+    }
   </style>
   <script>
-    // Particle.js configuration
+    function toggleStatDetails(element, type) {
+      const details = document.getElementById(`${type}-details`);
+      const allDetails = document.querySelectorAll('.stat-details');
+
+      allDetails.forEach(detail => {
+        if (detail !== details) {
+          detail.classList.remove('active');
+        }
+      });
+
+      details.classList.toggle('active');
+
+      // Close details when clicking outside
+      const closeHandler = (e) => {
+        if (!element.contains(e.target)) {
+          details.classList.remove('active');
+          document.removeEventListener('click', closeHandler);
+        }
+      };
+
+      setTimeout(() => {
+        document.addEventListener('click', closeHandler);
+      }, 0);
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      // Improved tooltip positioning
+      const features = document.querySelectorAll('.feature-main');
+      features.forEach(feature => {
+        feature.addEventListener('mousemove', (e) => {
+          const tooltip = feature.querySelector('.feature-tooltip');
+          if (tooltip) {
+            const rect = feature.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            tooltip.style.left = `${x + 20}px`;
+            tooltip.style.top = `${y - 10}px`;
+          }
+        });
+      });
+
       particlesJS('particles-js', {
         particles: {
-          number: { value: 30 },
+          number: { value: 50 },
           color: { value: '#ffffff' },
           shape: { type: 'circle' },
-          opacity: { value: 0.7 },
-          size: { value: 3 },
+          opacity: {
+            value: 0.5,
+            random: true,
+            animation: {
+              enable: true,
+              speed: 1,
+              minimumValue: 0.1,
+              sync: false
+            }
+          },
+          size: {
+            value: 3,
+            random: true
+          },
           line_linked: {
-            enable: false
+            enable: true,
+            distance: 150,
+            color: '#ffffff',
+            opacity: 0.4,
+            width: 1
           },
           move: {
             enable: true,
             speed: 2,
-            direction: "bottom",
+            direction: 'none',
             random: true,
             straight: false,
-            out_mode: "out",
+            outMode: 'out',
             bounce: false
+          }
+        },
+        interactivity: {
+          detectsOn: 'canvas',
+          events: {
+            onhover: {
+              enable: true,
+              mode: 'repulse'
+            },
+            resize: true
+          },
+          modes: {
+            repulse: {
+              distance: 100,
+              duration: 0.4
+            }
           }
         }
       });
 
-      // Counter animation
-      const counters = document.querySelectorAll('.counter');
-      counters.forEach(counter => {
-        const target = +counter.getAttribute('data-target');
-        const increment = target / 100;
+      const services = document.querySelectorAll('.service');
+      services.forEach(service => {
+        service.addEventListener('click', () => {
+          const details = service.querySelector('.details');
+          details.classList.toggle('active');
+          const items = details.querySelectorAll('li');
+          items.forEach((item, index) => {
+            setTimeout(() => {
+              item.style.transitionDelay = `${index * 100}ms`;
+            }, 50);
+          });
+        });
 
-        const updateCounter = () => {
-          const count = +counter.innerText;
-          if (count < target) {
-            counter.innerText = Math.ceil(count + increment);
-            setTimeout(updateCounter, 10);
-          }
-        };
+        service.addEventListener('mousemove', (e) => {
+          const rect = service.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
 
-        updateCounter();
+          service.style.setProperty('--x', `${x}px`);
+          service.style.setProperty('--y', `${y}px`);
+        });
       });
+
+      //Removed mousemove event listener for container to stop cursor following
     });
-    function toggleDetails(element) {
-      const details = element.querySelector('.details');
-      if (details.style.display === 'block') {
-        details.style.display = 'none';
-      } else {
-        details.style.display = 'block';
-      }
-    }
   </script>
 </head>
-<body>
+<body class="performance-mode">
+  <div class="scanline"></div>
+  <div class="glitch-overlay"></div>
   <div class="container">
+    <div class="cyber-line"></div>
     <h1>Hyperon Boost</h1>
     <div class="stats">
-      <div class="stat-item">
+      <div class="stat-item" onclick="toggleStatDetails(this, 'security')">
         <span><i class="fas fa-shield-alt"></i></span>
-        <p>100% Безопасно</p>
+        <p>Безопасность</p>
+        <div class="stat-details" id="security-details">
+          <h3>🛡️ Гарантированная Безопасность</h3>
+          <ul>
+            <li>✓ 100% легальные методы оптимизации</li>
+            <li>✓ Полная совместимость с античитами</li>
+            <li>✓ Безопасные платежи через надёжных посредников</li>
+            <li>✓ Гарантия возврата средств при неудовлетворении</li>
+            <li>✓ Более 1000+ довольных клиентов</li>
+          </ul>
+        </div>
       </div>
-      <div class="stat-item">
+      <div class="stat-item" onclick="toggleStatDetails(this, 'speed')">
         <span><i class="fas fa-bolt"></i></span>
-        <p>Мгновенный результат</p>
+        <p>Скорость</p>
+        <div class="stat-details" id="speed-details">
+          <h3>⚡ Максимальная Производительность</h3>
+          <ul>
+            <li>✓ Мгновенное повышение FPS на 30-50%</li>
+            <li>✓ Снижение задержек до минимума</li>
+            <li>✓ Стабильная работа в любых условиях</li>
+            <li>✓ Оптимизация под ваше железо</li>
+            <li>✓ Результат сразу после настройки</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stat-item" onclick="toggleStatDetails(this, 'quality')">
+        <span><i class="fas fa-crown"></i></span>
+        <p>Качество</p>
+        <div class="stat-details" id="quality-details">
+          <h3>👑 Премиум Качество</h3>
+          <ul>
+            <li>✓ Эксклюзивные настройки от профессионалов</li>
+            <li>✓ Индивидуальный подход к каждому клиенту</li>
+            <li>✓ Поддержка 24/7</li>
+            <li>✓ Регулярные обновления</li>
+            <li>✓ Пожизненная гарантия работы</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <p>Выберите услугу для улучшения вашего ПК или игры:</p>
 
-    <div class="service" onclick="toggleDetails(this)">
-      <h2><i class="fas fa-desktop"></i> Windows Boost</h2>
+    <div class="service">
+      <h2><i class="fas fa-desktop"></i> Windows Boost Pro</h2>
       <div class="details">
         <ul>
-          <li>Отключение мусора и ненужных служб</li>
-          <li>Улучшение отклика системы</li>
-          <li>Настройка производительности для игр</li>
-          <li>Снижение использования памяти и ЦП</li>
+          <li style="--icon: '\f021'" class="feature-main">
+            Глубокая оптимизация системы + Персональная настройка
+            <div class="feature-tooltip">
+              <div class="tooltip-title">Максимальная производительность Windows</div>
+              <div class="tooltip-text">
+                Наши специалисты проведут полную оптимизацию системы, включая тонкую настройку реестра, отключение ненужных служб и оптимизацию использования ресурсов. Все настройки адаптируются под ваше оборудование для достижения максимальной производительности.
+              </div>
+            </div>
+            <div class="subfeatures">
+              <p>• Индивидуальная настройка под ваше железо</p>
+              <p>• Оптимизация служб и процессов Windows</p>
+              <p>• Очистка и дефрагментация системы</p>
+            </div>
+          </li>
+          <li style="--icon: '\f3fd'" class="feature-main">
+            Улучшенный отклик и максимальная производительность
+            <div class="subfeatures">
+              <p>• Снижение задержек ввода до 40%</p>
+              <p>• Увеличение производительности на 25-35%</p>
+              <p>• Оптимизация сетевых настроек</p>
+            </div>
+          </li>
+          <li style="--icon: '\f11b'" class="feature-main">
+            Профессиональная оптимизация игровых настроек
+            <div class="subfeatures">
+              <p>• Тонкая настройка графических параметров</p>
+              <p>• Оптимизация игровых профилей</p>
+              <p>• Настройка приоритетов CPU/GPU</p>
+            </div>
+          </li>
+          <li style="--icon: '\f0e7'" class="feature-main">
+            Снижение задержек и значительное повышение FPS
+            <div class="subfeatures">
+              <p>• Стабильный FPS без просадок</p>
+              <p>• Снижение задержек до минимума</p>
+              <p>• Оптимизация драйверов устройств</p>
+            </div>
+          </li>
+          <li style="--icon: '\f085'" class="feature-main">
+            Эксклюзивные твики и оптимизации Hyperon
+            <div class="subfeatures">
+              <p>• Уникальные настройки от профессионалов</p>
+              <p>• Секретные оптимизации системы</p>
+              <p>• Постоянные обновления твиков</p>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
 
-    <div class="service" onclick="toggleDetails(this)">
-      <h2><i class="fas fa-gamepad"></i> CS2 FPS Boost</h2>
+    <div class="service">
+      <h2><i class="fas fa-gamepad"></i> CS2 Ultimate Boost</h2>
       <div class="details">
         <ul>
-          <li>Максимальный FPS на любом железе</li>
-          <li>Минимизация input lag'а</li>
-          <li>Оптимизация под FACEIT (100% безопасно)</li>
-          <li>Конфиг Hyperon Custom FPS Pack</li>
+          <li style="--icon: '\f3f3'" class="feature-main">
+            Максимальная оптимизация FPS + Снижение задержек
+            <div class="subfeatures">
+              <p>• Прирост FPS на 30-50%</p>
+              <p>• Стабильность в любых ситуациях</p>
+              <p>• Оптимизация под ваше железо</p>
+            </div>
+          </li>
+          <li style="--icon: '\f091'" class="feature-main">
+            Продвинутые настройки для соревновательного уровня
+            <div class="subfeatures">
+              <p>• Настройки профессиональных игроков</p>
+              <p>• Оптимальный баланс графики и FPS</p>
+              <p>• Специальные команды для CS2</p>
+            </div>
+          </li>
+          <li style="--icon: '\f132'" class="feature-main">
+            FACEIT Ready ∞ 100% Безопасный буст
+            <div class="subfeatures">
+              <p>• Полная совместимость с античитом</p>
+              <p>• Безопасные оптимизации</p>
+              <p>• Регулярные обновления</p>
+            </div>
+          </li>
+          <li style="--icon: '\f5a0'" class="feature-main">
+            Эксклюзивный конфиг Hyperon Pro Elite
+            <div class="subfeatures">
+              <p>• Уникальные настройки от про игроков</p>
+              <p>• Специальные бинды и скрипты</p>
+              <p>• Оптимизированный конфиг</p>
+            </div>
+          </li>
+          <li style="--icon: '\f126'" class="feature-main">
+            Специальные твики для максимального преимущества
+            <div class="subfeatures">
+              <p>• Улучшенная видимость противников</p>
+              <p>• Точный контроль оружия</p>
+              <p>• Максимальная производительность</p>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
 
-    <p>Для покупки, свяжитесь с нашим менеджером:</p>
     <button class="manager-button" onclick="window.location.href='tg://resolve?domain=shv3ddd'">
       Связаться с менеджером
     </button>
+
     <div class="author-credit">
       Created by <span class="author-name">kunasai</span><br>
       Co-authored by <span class="author-name">shv3d</span>
